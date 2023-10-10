@@ -15,7 +15,7 @@ on:
 env:
   PATCH_FLAG: false
   COMMIT: 0
-  DEPOT_UPLOAD: false
+  DEPOT_UPLOAD: true
   SRC_UPLOAD: true
   BINARY_UPLOAD: false
 
@@ -23,7 +23,7 @@ env:
 jobs:
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     if: github.event.repository.owner.id == github.event.sender.id 	
     
     steps:
@@ -79,7 +79,7 @@ jobs:
       if: env.DEPOT_UPLOAD == 'true' && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress depot_tools.zip 2>&1 | tee cowtransfer.log
+        ./transfer muse -s -p 64 --no-progress depot_tools.zip 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
    
     # upload v8.zip to cowtransfer
@@ -87,7 +87,7 @@ jobs:
       if: env.SRC_UPLOAD == 'true' && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress v8.7z.001 2>&1 | tee cowtransfer.log
+        ./transfer muse -s -p 64 --no-progress v8.7z.001 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
-        ./transfer cow --block 2621440 -s -p 64 --no-progress v8.7z.002 2>&1 | tee cowtransfer.log
+        ./transfer muse -s -p 64 --no-progress v8.7z.002 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
