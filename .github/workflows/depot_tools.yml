@@ -54,7 +54,7 @@ jobs:
       if: env.DEPOT_UPLOAD == 'true' && !cancelled()
       uses: JasonEtco/upload-to-release@master
       with:
-        args: depot_tools.zip application/zip
+        args: depot_tools.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
